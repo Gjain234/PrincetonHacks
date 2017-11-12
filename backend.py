@@ -18,6 +18,7 @@ MAX_COMMENT_LEN = 30
 # facebook JSON: me?fields=name, photos{from{name,movies,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,movies, languages, gender, events, sports, favorite_teams,likes{category, about}}}
 facebookUrl = ""                                                                                                        # <---  put your fb URL here
 
+
 commentList = dict()
 def addComment(comment, name):
     '''
@@ -63,10 +64,10 @@ def parseDicts(peopleTagged, peopleList, activity, scoreList, myName):
 
         if 'likes' in data["from"]:
             # print(data["from"]["likes"]['data'])
-            print("===============================")
-            print(data["from"]["name"])
+            #print("===============================")
+            #print(data["from"]["name"])
             name = data["from"]["name"]
-            print("this person likes:")
+            #print("this person likes:")
             for page in data["from"]["likes"]['data']:
 
                 if "category" in page:
@@ -138,7 +139,7 @@ def getRosterFromFB(activity):
 
     for i in range(min(MAX_FRIENDS, len(scores))):
         names.append(scores[i])
-    print("names collected.")
+    #print("names collected.")
     return names
 
 
@@ -166,6 +167,7 @@ def getMessage(squadRoster):
         message += "but " + squadRoster[0][0] + prettyWords + str(commentList[squadRoster[0][0]])
     else:
         message += " You are gonna have a GREAT time."
+
     return message
 
 
@@ -175,7 +177,7 @@ def getHangoutSquadComments(activity):
     :param activity:
     :return: Messages for Alexa to -READ OUT LOUD-.
     '''
-    print("activity: {0}".format(activity))
+    #print("activity: {0}".format(activity))
 
     # get your squad roster from fb
     squadRoster = getRosterFromFB(activity)
