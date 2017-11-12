@@ -13,9 +13,9 @@ import collections
 import operator
 
 # max num friends suggested
-MAX_FRIENDS = 3
+MAX_FRIENDS = 5
 # facebook JSON: me?fields=name, photos{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}
-facebookUrl = ""                                                                                                        # <---  put your fb URL here
+facebookUrl = "https://graph.facebook.com/v2.11/me?fields=name%2C%20photos%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D%2C%20tagged%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D&access_token=EAACEdEose0cBAMLN0WkZAzOCbo80i4Msds1bbVUNscacQr59nmJTMRFhGtrfyNiA17pSlPvKOgZAJFgBhuX6lRIO509D7qZAZAeP0hueGi3XZAYV898vmXXWyTOxjgGm6crY98SAJj4PTkBdkr7b2GOdk6ZARSwC9z04EirPXVro0QeRPXwKZAO8YZByCVS893TBFvatXs0zGAZDZD"                                                                                                        # <---  put your fb URL here
 
 commentList = dict()
 def addComment(comment, name):
@@ -111,15 +111,15 @@ def getRosterFromFB(activity):
     info = requests.get(facebookUrl).json()
     myName = info["name"]
     photos = info["photos"]
-    tagged = info["tagged"]
+    #tagged = info["tagged"]
     peopleTagged = photos["data"]
-    peopleWhoTagMe = tagged["data"]
+    #peopleWhoTagMe = tagged["data"]
     peopleList = collections.Counter()
 
     #aboutList = collections.Counter()
     scoreList = peopleList
     peopleList, scoreList = parseDicts(peopleTagged, peopleList, activity, scoreList, myName)
-    peopleList, scoreList = parseDicts(peopleWhoTagMe, peopleList, activity, scoreList, myName)
+    #peopleList, scoreList = parseDicts(peopleWhoTagMe, peopleList, activity, scoreList, myName)
     scores = sorted(scoreList.items(), key=operator.itemgetter(1), reverse = True)
     names = []
 
@@ -162,4 +162,4 @@ def getHangoutSquadComments(activity):
     return alexaMessage
 
 #print(commentList)
-#print(getHangoutSquadComments(["Musician", "English", "Japanese", "Nonprofit Organization", "Computer Company", "Finance Company"]))
+print(getHangoutSquadComments(["Musician", "English", "Japanese", "Dance", "Indian"]))

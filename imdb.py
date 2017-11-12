@@ -2,13 +2,13 @@ import requests
 import json
 
 # put api key here
-apiKey = ""
+apiKey = "f3ba73ed65de9b13e01665d32af05100"
 
 # put imdb key here
-imdb_key = ""
+imdb_key = "318a3ddd"
 
 # put the music key here
-music_key = ""
+music_key = "c8303e90962e3a5ebd5a1f260a69b138"
 
 g_url = "https://api.themoviedb.org/3/genre/movie/list?api_key="+apiKey
 
