@@ -38,6 +38,15 @@ specificMusicTrans["S4"]="S8"
 specificGenreTrans = dict()
 specificGenreTrans["S6"]="S8"
 
+startOverTrans = dict()
+startOverTrans["S2"] = "S1"
+startOverTrans["S3"] = "S1"
+startOverTrans["S4"] = "S1"
+startOverTrans["S5"] = "S1"
+startOverTrans["S6"] = "S1"
+startOverTrans["S7"] = "S1"
+startOverTrans["S8"] = "S1"
+
 enterGenre = ""
 enterMovie = ""
 enterBand = ""
@@ -120,6 +129,17 @@ def genre_picked(specificGenre):
     else:
         return question(round_msg)
 
+@ask.intent("StartOver")
+def start_over(startOver):
+    session.attributes['state'] = startOverTrans[session.attributes['state']]
+    round_msg = render_template(session.attributes['state'])
+    if(session.attributes['state'] == endState):
+        return statement(round_msg)
+    else:
+        return question(round_msg)
+
+
+
 @ask.intent("ContinueIntent")
 def continue_intent():
     if(enterMovie!=""):
@@ -136,14 +156,14 @@ def continue_intent():
         js = json.loads(artist)
         keyWordList.append(js["data"][0]["main_genre"])
         keyWordList.append(js["data"][0]["name"])
-        #similarArtists = imdb.get_music_artist_similar(enterBand)
-        #js2 = json.loads(similarArtists)
-
-#print("LOOKING FOR ERRORS WE ARE PRINTING RIGHT NOW!!!!!!!!!!!!!!!!!!!!!!!!")
-#print(enterMovie)
-#print (len(keyWordList))
-#for x in keyWordList:
-#print (x)
+    #similarArtists = imdb.get_music_artist_similar(enterBand)
+    #js2 = json.loads(similarArtists)
+    
+    #print("LOOKING FOR ERRORS WE ARE PRINTING RIGHT NOW!!!!!!!!!!!!!!!!!!!!!!!!")
+    #print(enterMovie)
+    #print (len(keyWordList))
+    #for x in keyWordList:
+    #print (x)
     
     alexaMessage = backend.getHangoutSquadComments(keyWordList)
     return statement(alexaMessage)
