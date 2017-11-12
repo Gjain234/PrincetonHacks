@@ -1,21 +1,22 @@
 '''
 Usage:
 1. Provide facebookUrl https://developers.facebook.com/tools/explorer.
-    GET -> me?fields=name, photos{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}
+    GET -> me?fields=name, photos{from{name,movies,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,movies, languages, gender, events, sports, favorite_teams,likes{category, about}}}
 2. getHangoutSquadComments(["Musician", "English", "Japanese", "Nonprofit Organization", "Computer Company", "Finance Company"]
 
 
 '''
 
-
+import random
 import requests
 import collections
 import operator
 
 # max num friends suggested
 MAX_FRIENDS = 3
-# facebook JSON: me?fields=name, photos{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}
-facebookUrl = ""                                                                                                        # <---  put your fb URL here
+MAX_COMMENT_LEN = 30
+# facebook JSON: me?fields=name, photos{from{name,movies,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,movies, languages, gender, events, sports, favorite_teams,likes{category, about}}}
+facebookUrl = ""# <---  put your fb URL here
 
 commentList = dict()
 def addComment(comment, name):
@@ -26,7 +27,7 @@ def addComment(comment, name):
     :return:
     '''
     if name in commentList:
-        if len(commentList[name]) < 100:
+        if len(commentList[name]) < MAX_COMMENT_LEN:
             commentList[name] += comment
     else:
         commentList[name] = comment
@@ -53,9 +54,12 @@ def parseDicts(peopleTagged, peopleList, activity, scoreList, myName):
         if data["from"]["name"] in peopleList:
             continue
 
+        # get rid of the non humans
+        if "league" in data["from"]["name"].lower() or "organization" in data["from"]["name"].lower() or "club" in data["from"]["name"].lower() or "llc" in data["from"]["name"].lower() or 'company' in data["from"]["name"].lower() or '-' in data["from"]["name"].lower() or 'museum' in data["from"]["name"].lower():
+            continue
 
         peopleList[data["from"]["name"]] += 1
-        addComment("You and " + data["from"]["name"] + " are tagged in the same photo before.", data["from"]["name"])
+        #addComment("You and " + data["from"]["name"] + " are tagged in the same photo before.", data["from"]["name"])
 
         if 'likes' in data["from"]:
             # print(data["from"]["likes"]['data'])
@@ -68,30 +72,39 @@ def parseDicts(peopleTagged, peopleList, activity, scoreList, myName):
                 if "category" in page:
                     for act in activity:
                         act = act.lower()
+                        if 'movies' in data["from"]:
+                            for movie in data["from"]['movies']["data"]:
+                                if 'genre' in movie:
+                                    if act in movie["genre"].lower():
+                                        scoreList[name] += 1
+                                        addComment(name + " likes " + movie["genre"] + " movies.", name)
+                                if act in movie['name'].lower():
+                                    scoreList[name] += 1
+                                    addComment(name + " likes watching " + movie['name'] + '.', name)
                         if 'event' in data["from"]:
-                            if act in data['from']['event']["data"]["discription"]:
+                            if act in data['from']['event']["data"]["discription"].lower():
                                 scoreList[name] += 1
 
-                                addComment("You both like to attend events about "+data['from']['event']["data"]["discription"]+".", name)
+                                addComment("You both like to attend events on "+data['from']['event']["data"]["discription"]+".", name)
                         if 'language' in data["from"]:
-                            if act in data["from"]['language']:
+                            if act in data["from"]['language'].lower():
                                 scoreList[name] += 1
                                 addComment("They speak "+data["from"]['language']+".", name)
                         if 'sports' in data["from"]:
-                            if act in data["from"]['sports']:
+                            if act in data["from"]['sports'].lower():
                                 scoreList[name] += 1
                                 addComment("They like" + data["from"]['sports'] + ".", name)
                         if 'favorite_teams' in data["from"]:
-                            for team in data["from"]['favorite_teams']:
+                            for team in data["from"]['favorite_teams'].lower():
                                 teamString = "Their favorite sports teams are "
-                                if act in team['data']['name']:
+                                if act in team['name'].lower():
                                     scoreList[name] += 1
-                                    teamString+= team['data']['name']
+                                    teamString+= team['name']
                                 addComment(teamString, name)
 
                         if act in page['category'].lower():
                             scoreList[name] += 1
-                            addComment("They like to attend events in " + page['category'].lower() + " categoty.", name)
+                            addComment("They like to attend events in " + page['category'].lower() + " category.", name)
                     # actList[name] = page['category']
                     print(page['category'])
                 if "about" in page:
@@ -141,8 +154,18 @@ def getMessage(squadRoster):
     for m in squadRoster:
         message += (m[0] + ', ')
     print(commentList)
-    message += "but " + squadRoster[0][0] + " has some sincere passion in these activities. " + str(commentList[squadRoster[0][0]])
-
+    prettyWords = ""
+    x = random.randrange(0, 3)
+    if x == 0:
+        prettyWords = " has some sincere passion in these activities. "
+    elif x == 1:
+        prettyWords = " really loves these activities. "
+    elif x == 2:
+        prettyWords = " just likes doing these activities too much. "
+    if squadRoster[0][0] in commentList:
+        message += "but " + squadRoster[0][0] + prettyWords + str(commentList[squadRoster[0][0]])
+    else:
+        message += " You are gonna have a GREAT time."
     return message
 
 
@@ -162,4 +185,5 @@ def getHangoutSquadComments(activity):
     return alexaMessage
 
 #print(commentList)
-#print(getHangoutSquadComments(["Musician", "English", "Japanese", "Nonprofit Organization", "Computer Company", "Finance Company"]))
+print(getHangoutSquadComments(["harry potter", "Your Name", "Marvel Studios", "Technology", "Computer Company"]))
+
