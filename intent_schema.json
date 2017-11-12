@@ -1,0 +1,9 @@
+ {
+     "intents": [{
+         "intent": "MovieIntent",
+         "slots": [{
+             "name": "moviePicked",
+             "type": "AMAZON.MOVIE"
+         }]
+     }]
+ }
