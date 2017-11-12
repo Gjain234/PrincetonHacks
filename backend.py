@@ -16,7 +16,7 @@ import random
 MAX_FRIENDS = 5
 MAX_COMMENT_LEN = 30
 # facebook JSON: me?fields=name, photos{from{name,movies,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,movies, languages, gender, events, sports, favorite_teams,likes{category, about}}}
-facebookUrl = ""                                                                                                        # <---  put your fb URL here
+facebookUrl = "https://graph.facebook.com/v2.11/me?fields=name%2C%20photos%7Bfrom%7Bname%2Cmovies%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D%2C%20tagged%7Bfrom%7Bname%2Cmovies%2C%20languages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D&access_token=EAACEdEose0cBACrGRh65TDJKho5FxgvdUdrPhY38lF6IhfebhMxs7t3hlGcnu9eTTTdk8cEZAFjfZCZC2jl9kE4j4q0ve6r6nvP8lg9UsTe2FIbj1ZBLcrrz4p6qTsnerpD4HK8d4nujJQflZCOjbtKiEeEDwKYT1dRbsZAePMpgUq1wK8MZCQYnm95XUaYAEdaFZBeiGCOsPwZDZD"                                                                                                        # <---  put your fb URL here
 
 
 commentList = dict()
@@ -56,7 +56,7 @@ def parseDicts(peopleTagged, peopleList, activity, scoreList, myName):
             continue
         # get rid of the non humans
 
-        if "league" in data["from"]["name"].lower() or "organization" in data["from"]["name"].lower() or "club" in data["from"]["name"].lower() or "llc" in data["from"]["name"].lower() or 'company' in data["from"]["name"].lower() or '-' in data["from"]["name"].lower() or 'museum' in data["from"]["name"].lower():
+        if "league" in data["from"]["name"].lower() or "organization" in data["from"]["name"].lower() or "club" in data["from"]["name"].lower() or "llc" in data["from"]["name"].lower() or 'company' in data["from"]["name"].lower() or '-' in data["from"]["name"].lower() or 'museum' in data["from"]["name"].lower() or 'society' in data["from"]["name"].lower():
             continue
 
         peopleList[data["from"]["name"]] += 1
@@ -95,7 +95,7 @@ def parseDicts(peopleTagged, peopleList, activity, scoreList, myName):
                             if act in data["from"]['sports'].lower():
                                 scoreList[name] += 1
                                 addComment("They like" + data["from"]['sports'] + ".", name)
-                        if 'favorite_teams' in data["from"].lower():
+                        if 'favorite_teams' in data["from"]:
                             for team in data["from"]['favorite_teams'].lower():
                                 teamString = "Their favorite sports teams are "
                                 if act in team['data']['name'].lower():
