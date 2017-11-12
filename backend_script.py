@@ -13,5 +13,9 @@ app = Flask(__name__)
 def main():
     return "hello cloud!!!"
 
+@app.route("/other", methods=['GET', 'POST'])
+def other():
+    return "hello other!!!"
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=80,debug=True)
