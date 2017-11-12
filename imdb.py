@@ -7,6 +7,9 @@ apiKey = ""
 # put imdb key here
 imdb_key = ""
 
+# put the music key here
+music_key = ""
+
 g_url = "https://api.themoviedb.org/3/genre/movie/list?api_key="+apiKey
 
 genres_r = requests.get(g_url)
@@ -42,6 +45,23 @@ def get_data_title(title):
         return r.content
     else:
         return None
+
+
+
+def get_music_artist(artist):
+    m_url = "http://api.musicgraph.com/api/v2/artist/search?api_key="+music_key
+    nme = "&name="+artist
+    url_final = m_url+nme
+    r = requests.get(url_final)
+    return r.content
+
+
+def get_music_artist_similar(artist):
+    m_url = "http://api.musicgraph.com/api/v2/artist/search?api_key="+music_key
+    nme = "&similar_to="+artist
+    url_final = m_url+nme
+    r = requests.get(url_final)
+    return r.content
 
 def print_json(j):
     parse = json.loads(j)
