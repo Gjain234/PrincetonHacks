@@ -11,38 +11,46 @@ ask = Ask(app, "/")
 logging.getLogger("flask_ask").setLevel(logging.DEBUG)
 
 BeginState = "S1"
-endState = "S7"
+endState = "S8"
 
 movieTrans = dict()
 movieTrans["S1"] = "S2"
 
+yesTrans = dict()
+yesTrans["S2"] = "S3"
+
+noTrans = dict()
+noTrans["S2"] = "S6"
+
 concertTrans = dict()
-concertTrans["S1"] = "S3"
+concertTrans["S1"] = "S4"
 
 sportsTrans = dict()
-sportsTrans["S1"] = "S4"
+sportsTrans["S1"] = "S5"
 
 basketballTrans = dict()
-basketballTrans["S4"] = "S6"
+basketballTrans["S5"] = "S7"
 
 baseballTrans = dict()
-baseballTrans["S4"] = "S6"
+baseballTrans["S5"] = "S7"
 
 footballTrans = dict()
-footballTrans["S4"] = "S6"
+footballTrans["S5"] = "S7"
 
 tennisTrans = dict()
-tennisTrans["S4"] = "S6"
+tennisTrans["S5"] = "S7"
 
 golfTrans = dict()
-golfTrans["S4"] = "S6"
+golfTrans["S5"] = "S7"
 
 volleyballTrans = dict()
-volleyballTrans["S4"] = "S6"
+volleyballTrans["S5"] = "S7"
 
 hockeyTrans = dict()
-hockeyTrans["S4"] = "S6"
+hockeyTrans["S5"] = "S7"
 
+specificMovieTrans = dict()
+specificMovieTrans["S3"] = "S8"
 
 
 @ask.launch
@@ -54,6 +62,24 @@ def start_skill():
 @ask.intent("MovieIntent")
 def movie_intent():
     session.attributes['state'] = movieTrans[session.attributes['state']]
+    round_msg = render_template(session.attributes['state'])
+    if(session.attributes['state'] == endState):
+        return statement(round_msg)
+    else:
+        return question(round_msg)
+
+@ask.intent("YesIntent")
+def yes_intent():
+    session.attributes['state'] = yesTrans[session.attributes['state']]
+    round_msg = render_template(session.attributes['state'])
+    if(session.attributes['state'] == endState):
+        return statement(round_msg)
+    else:
+        return question(round_msg)
+
+@ask.intent("NoIntent")
+def no_intent():
+    session.attributes['state'] = noTrans[session.attributes['state']]
     round_msg = render_template(session.attributes['state'])
     if(session.attributes['state'] == endState):
         return statement(round_msg)
@@ -140,6 +166,11 @@ def hockey_intent():
         return statement(round_msg)
     else:
         return question(round_msg)
+
+@ask.intent("SpecificMovieIntent", convert={'moviePicked': 'movie'})
+def movie_picked(moviePicked):
+    session.attributes['state'] = specificMovieTrans[session.attributes['state']]
+    return statement("Looking for people to watch {} with.".format(moviePicked))
 
 if __name__== '__main__':
     app.run(debug = True)
