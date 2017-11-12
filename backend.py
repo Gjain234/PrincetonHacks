@@ -13,15 +13,10 @@ import collections
 import operator
 
 # max num friends suggested
-<<<<<<< HEAD
 MAX_FRIENDS = 5
-# facebook JSON: me?fields=name, photos{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}
-facebookUrl = "https://graph.facebook.com/v2.11/me?fields=name%2C%20photos%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D%2C%20tagged%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D&access_token=EAACEdEose0cBAMLN0WkZAzOCbo80i4Msds1bbVUNscacQr59nmJTMRFhGtrfyNiA17pSlPvKOgZAJFgBhuX6lRIO509D7qZAZAeP0hueGi3XZAYV898vmXXWyTOxjgGm6crY98SAJj4PTkBdkr7b2GOdk6ZARSwC9z04EirPXVro0QeRPXwKZAO8YZByCVS893TBFvatXs0zGAZDZD"                                                                                                        # <---  put your fb URL here
-=======
-MAX_FRIENDS = 3
+
 # facebook JSON: me?fields=name, photos{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}
 facebookUrl = ""                                                                                                        # <---  put your fb URL here
->>>>>>> parent of 84637ab... Get rid of those none humans
 
 commentList = dict()
 def addComment(comment, name):
