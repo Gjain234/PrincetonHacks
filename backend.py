@@ -162,9 +162,4 @@ def getHangoutSquadComments(activity):
     alexaMessage = getMessage(squadRoster)
     return alexaMessage
 
-#print(commentList)
-<<<<<<< HEAD
-print(getHangoutSquadComments(["Musician", "English", "Japanese", "Dance", "Indian"]))
-=======
-#print(getHangoutSquadComments(["Musician", "English", "Japanese", "Nonprofit Organization", "Computer Company", "Finance Company"]))
->>>>>>> parent of 84637ab... Get rid of those none humans
+
