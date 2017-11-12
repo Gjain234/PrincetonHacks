@@ -18,6 +18,7 @@ genres = genres_r.content
 genres_json = json.loads(genres)["genres"]
 
 
+
 def get_data_genre(genre):
     """
     Takes a genre with first letter capitalized, e.g. "Action",
@@ -47,7 +48,6 @@ def get_data_title(title):
         return None
 
 
-
 def get_music_artist(artist):
     m_url = "http://api.musicgraph.com/api/v2/artist/search?api_key="+music_key
     nme = "&name="+artist
@@ -62,6 +62,14 @@ def get_music_artist_similar(artist):
     url_final = m_url+nme
     r = requests.get(url_final)
     return r.content
+
+def artst_sim_nms(artist):
+    r = get_music_artist_similar(artist)
+    js = json.loads(r)
+    names = []
+    for atst in js["data"]:
+        names.append(atst["name"])
+    return names
 
 def print_json(j):
     parse = json.loads(j)

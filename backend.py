@@ -14,7 +14,9 @@ import operator
 
 # max num friends suggested
 MAX_FRIENDS = 5
+
 # facebook JSON: me?fields=name, photos{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}
+
 facebookUrl = "https://graph.facebook.com/v2.11/me?fields=name%2C%20photos%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D%2C%20tagged%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D&access_token=EAACEdEose0cBANDwrRiyjLvZCZAYo1QocB1gjVKScishwZB1af6nT2QxPuTaPEoaxNSiF1i7gbZAMZCOMcGDDIx2SRSZCBVnsyPsG8KLFUFsJ2pQjuzmzcDZBzkNbIjfWchGJnP3ZAFOAB4ZCXTVdZCnrEtPRZBvUst0ylWIAC5ObiEtdAODa8vJTli0lh21SgQGVDoaeBSxhApLgZDZD"                                                                                                        # <---  put your fb URL here
 
 commentList = dict()
@@ -161,5 +163,4 @@ def getHangoutSquadComments(activity):
     alexaMessage = getMessage(squadRoster)
     return alexaMessage
 
-#print(commentList)
-#print(getHangoutSquadComments(["Musician", "English", "Japanese", "Dance", "Indian"]))
+
