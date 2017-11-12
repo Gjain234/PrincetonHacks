@@ -15,7 +15,7 @@ import operator
 # max num friends suggested
 MAX_FRIENDS = 5
 # facebook JSON: me?fields=name, photos{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,languages, gender, events, sports, favorite_teams,likes{category, about}}}
-facebookUrl = "https://graph.facebook.com/v2.11/me?fields=name%2C%20photos%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D%2C%20tagged%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D&access_token=EAACEdEose0cBAMLN0WkZAzOCbo80i4Msds1bbVUNscacQr59nmJTMRFhGtrfyNiA17pSlPvKOgZAJFgBhuX6lRIO509D7qZAZAeP0hueGi3XZAYV898vmXXWyTOxjgGm6crY98SAJj4PTkBdkr7b2GOdk6ZARSwC9z04EirPXVro0QeRPXwKZAO8YZByCVS893TBFvatXs0zGAZDZD"                                                                                                        # <---  put your fb URL here
+facebookUrl = "https://graph.facebook.com/v2.11/me?fields=name%2C%20photos%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D%2C%20tagged%7Bfrom%7Bname%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D&access_token=EAACEdEose0cBANDwrRiyjLvZCZAYo1QocB1gjVKScishwZB1af6nT2QxPuTaPEoaxNSiF1i7gbZAMZCOMcGDDIx2SRSZCBVnsyPsG8KLFUFsJ2pQjuzmzcDZBzkNbIjfWchGJnP3ZAFOAB4ZCXTVdZCnrEtPRZBvUst0ylWIAC5ObiEtdAODa8vJTli0lh21SgQGVDoaeBSxhApLgZDZD"                                                                                                        # <---  put your fb URL here
 
 commentList = dict()
 def addComment(comment, name):
@@ -59,10 +59,10 @@ def parseDicts(peopleTagged, peopleList, activity, scoreList, myName):
 
         if 'likes' in data["from"]:
             # print(data["from"]["likes"]['data'])
-            print("===============================")
-            print(data["from"]["name"])
+            #print("===============================")
+            #print(data["from"]["name"])
             name = data["from"]["name"]
-            print("this person likes:")
+            #print("this person likes:")
             for page in data["from"]["likes"]['data']:
 
                 if "category" in page:
@@ -125,7 +125,7 @@ def getRosterFromFB(activity):
 
     for i in range(min(MAX_FRIENDS, len(scores))):
         names.append(scores[i])
-    print("names collected.")
+    #print("names collected.")
     return names
 
 
@@ -140,7 +140,7 @@ def getMessage(squadRoster):
     message = "You might want to hangout with "
     for m in squadRoster:
         message += (m[0] + ', ')
-    print(commentList)
+    #print(commentList)
     message += "but " + squadRoster[0][0] + " has some sincere passion in these activities. " + str(commentList[squadRoster[0][0]])
 
     return message
@@ -152,7 +152,7 @@ def getHangoutSquadComments(activity):
     :param activity:
     :return: Messages for Alexa to -READ OUT LOUD-.
     '''
-    print("activity: {0}".format(activity))
+    #print("activity: {0}".format(activity))
 
     # get your squad roster from fb
     squadRoster = getRosterFromFB(activity)
@@ -162,4 +162,4 @@ def getHangoutSquadComments(activity):
     return alexaMessage
 
 #print(commentList)
-print(getHangoutSquadComments(["Musician", "English", "Japanese", "Dance", "Indian"]))
+#print(getHangoutSquadComments(["Musician", "English", "Japanese", "Dance", "Indian"]))

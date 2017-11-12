@@ -1,5 +1,6 @@
 import imdb
 import backend
+import json
 
 import logging
 import os
@@ -87,21 +88,37 @@ def concert_intent():
 
 @ask.intent("SpecificMovieIntent", convert={'moviePicked': 'movie'})
 def movie_picked(moviePicked):
+    global enterMovie
     enterMovie = moviePicked
+    #print("Enter MOVIE is " + enterMovie)
     session.attributes['state'] = specificMovieTrans[session.attributes['state']]
-    return statement("Looking for people to watch {} with.".format(moviePicked))
+    round_msg = render_template(session.attributes['state'])
+    if(session.attributes['state'] == endState):
+        return statement(round_msg)
+    else:
+        return question(round_msg)
 
 @ask.intent("MusicIntent", convert={'bandPicked': 'MusicGroup'})
 def band_picked(bandPicked):
+    global enterBand
     enterBand = bandPicked
     session.attributes['state'] = specificMusicTrans[session.attributes['state']]
-    return statement("Looking for people to go to {}'s concert with.".format(bandPicked))
+    round_msg = render_template(session.attributes['state'])
+    if(session.attributes['state'] == endState):
+        return statement(round_msg)
+    else:
+        return question(round_msg)
 
 @ask.intent("GenreIntent", convert={'specificGenre': 'Genre'})
 def genre_picked(specificGenre):
+    global enterGenre
     enterGenre = specificGenre
     session.attributes['state'] = specificGenreTrans[session.attributes['state']]
-    return statement("Looking for people to watch {} movies with.".format(specificGenre))
+    round_msg = render_template(session.attributes['state'])
+    if(session.attributes['state'] == endState):
+        return statement(round_msg)
+    else:
+        return question(round_msg)
 
 @ask.intent("ContinueIntent")
 def continue_intent():
@@ -112,15 +129,24 @@ def continue_intent():
         keyWordList.append(js["Genre"])
         keyWordList.append(js["Director"])
         keyWordList.append(js["Actors"])
-    else if(enterGenre!=""):
+    elif(enterGenre!=""):
         keyWordList.append(enterGenre)
-    else if(enterBand!=""):
+    elif(enterBand!=""):
         artist = imdb.get_music_artist(enterBand)
         js = json.loads(artist)
         keyWordList.append(js["data"][0]["main_genre"])
         keyWordList.append(js["data"][0]["name"])
         #similarArtists = imdb.get_music_artist_similar(enterBand)
         #js2 = json.loads(similarArtists)
+
+#print("LOOKING FOR ERRORS WE ARE PRINTING RIGHT NOW!!!!!!!!!!!!!!!!!!!!!!!!")
+#print(enterMovie)
+#print (len(keyWordList))
+#for x in keyWordList:
+#print (x)
+    
+    alexaMessage = backend.getHangoutSquadComments(keyWordList)
+    return statement(alexaMessage)
 
 
 
