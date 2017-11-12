@@ -2,7 +2,7 @@
 Usage:
 1. Provide facebookUrl https://developers.facebook.com/tools/explorer.
     GET -> GET -> me?fields=name, photos{from{name,movies,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,movies, languages, gender, events, sports, favorite_teams,likes{category, about}}}
-  2. getHangoutSquadComments(["Musician", "English", "Japanese", "Nonprofit Organization", "Computer Company", "Finance Company"]
+2. getHangoutSquadComments(["Musician", "English", "Japanese", "Nonprofit Organization", "Computer Company", "Finance Company"]
 
 
 '''
@@ -44,11 +44,11 @@ def parseDicts(peopleTagged, peopleList, activity, scoreList, myName):
     '''
     for data in peopleTagged:
         # if "likes" in data:
-        #NAME = data["from"]["name"]
+        # NAME = data["from"]["name"]
 
         # don't count about yourself
-        #if data["from"]["name"] == myName:
-        #    continue
+        if data["from"]["name"] == myName:
+            continue
 
         # don't count the same person twice
         if data["from"]["name"] in peopleList:
