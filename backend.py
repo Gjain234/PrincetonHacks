@@ -16,7 +16,9 @@ import random
 MAX_FRIENDS = 5
 MAX_COMMENT_LEN = 30
 # facebook JSON: me?fields=name, photos{from{name,movies,languages, gender, events, sports, favorite_teams,likes{category, about}}}, tagged{from{name,movies, languages, gender, events, sports, favorite_teams,likes{category, about}}}
+
 facebookUrl = "https://graph.facebook.com/v2.11/me?fields=name%2C%20photos%7Bfrom%7Bname%2Cmovies%2Clanguages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D%2C%20tagged%7Bfrom%7Bname%2Cmovies%2C%20languages%2C%20gender%2C%20events%2C%20sports%2C%20favorite_teams%2Clikes%7Bcategory%2C%20about%7D%7D%7D&access_token=EAACEdEose0cBAAlrDFfOjRI9ydKhpzLj7yWrIBK8ucgwyXQvy5b4mjyLTRBADjZAmqiSvZAMcX7Qo0i9WvYpnBstJYD3I04LKINeMV7duwujNjDJpLGSN3kXeV37h8dre4JSnqKcvEKK00iYBK8vwHvDD8pq6NT8HfZCo1mlGtVXSZBmX2D6zbCrxhpER8fAg7EfZCslhJgZDZD"
+
 
 commentList = dict()
 def addComment(comment, name):
